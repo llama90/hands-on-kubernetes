@@ -78,6 +78,34 @@ Handling connection for 8080
 Handling connection for 8080
 ```
 
+```
+# kubectl 자동완성
+
+brew install bash-completion@2
+
+# 자동 완성 스크립트를 ~/.bash_profile 파일에서 소싱
+echo 'source <(kubectl completion bash)' >>~/.bash_profile
+
+# 자동 완성 스크립트를 /usr/local/etc/bash_completion.d 디렉터리에 추가
+kubectl completion bash >/usr/local/etc/bash_completion.d/kubectl
+
+# kubectl에 대한 앨리어스가 있는 경우, 해당 앨리어스로 작업하기 위해 셸 자동 완성을 확장
+echo 'alias k=kubectl' >>~/.bash_profile
+echo 'complete -o default -F __start_kubectl k' >>~/.bash_profile
+
+# tab을 치는데 다음과 같은 메시지가 발생하는 경우 
+# $ k go/-bash: _get_comp_words_by_ref: command not found
+
+# $ vim ~/.bash_profile
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+$ k get n
+namespaces                         nodes
+networkpolicies.networking.k8s.io
+```
+
 ## Troubleshooting
 
 ### scheduler Unhealthy
@@ -117,3 +145,4 @@ controller-manager   Healthy   ok
 * [k8s v1.22버전 설치 (최신, 쉬운설치 버전)](https://kubetm.github.io/k8s/02-beginner/cluster-install-case6/)
 * [4.3. Install Kubernetes - Kubeadm](https://mlops-for-all.github.io/docs/setup-kubernetes/kubernetes-with-kubeadm/)
 * [自学k8s-kubeadm部署过程中遇到的dial tcp 127.0.0.1:10251: connect: connection refused错误 ](https://www.cnblogs.com/potato-chip/p/13973760.html)
+* [ [문제해결] _get_comp_words_by_ref: command not found](http://www.kwangsiklee.com/2019/11/%EB%AC%B8%EC%A0%9C%ED%95%B4%EA%B2%B0-_get_comp_words_by_ref-command-not-found/)
